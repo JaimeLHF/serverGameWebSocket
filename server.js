@@ -7,7 +7,7 @@ const app = express();
 const server = http.createServer(app);
 const io = new Server(server, {
     cors: {
-        origin: "http://82.29.59.166", // Permite apenas o frontend acessar
+        origin: "*",
         methods: ["GET", "POST"]
     }
 });
@@ -17,7 +17,7 @@ const rooms = {};
 const PORT = 3000;
 
 app.use(cors({
-    origin: "http://82.29.59.166"
+    origin: "*"
 }));
 
 app.get('/', (req, res) => {
