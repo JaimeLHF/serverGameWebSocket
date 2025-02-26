@@ -1,13 +1,24 @@
 const express = require('express');
 const http = require('http');
 const { Server } = require('socket.io');
+const cors = require('cors');
 
 const app = express();
 const server = http.createServer(app);
-const io = new Server(server);
+const io = new Server(server, {
+    cors: {
+        origin: "http://82.29.59.166", // Permite apenas o frontend acessar
+        methods: ["GET", "POST"]
+    }
+});
+
 const rooms = {};
 
 const PORT = 3000;
+
+app.use(cors({
+    origin: "http://82.29.59.166"
+}));
 
 app.get('/', (req, res) => {
     res.send('<h1>Servidor WebSocket está rodando</h1>');
