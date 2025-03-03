@@ -42,6 +42,11 @@ io.on('connection', (socket) => {
         }
     });
 
+    socket.on('controller_opened', ({ roomId }) => {
+        console.log(`Play na sala ${roomId}`);
+        io.to(roomId).emit("controller_opened"); // Envia evento para todos na sala
+    });
+
     socket.on('move', (data) => {
         if (!socket.roomId) return;
         const room = rooms[socket.roomId];
@@ -58,5 +63,5 @@ io.on('connection', (socket) => {
 });
 
 server.listen(PORT, () => {
-    console.log(`Servidor rodando em http://localhost:${PORT}`);
+    console.log(`Servidor rodando em ${PORT}`);
 });
