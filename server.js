@@ -53,7 +53,7 @@ io.on('connection', (socket) => {
 
         if (room && room.game) {
             room.game.emit('direction', data);
-            console.log(`Movimento enviado para game: ${data}`);
+            console.log(data.direction);
         }
     });
 
