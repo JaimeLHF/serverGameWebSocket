@@ -44,7 +44,7 @@ io.on('connection', (socket) => {
 
     socket.on('controller_opened', ({ roomId }) => {
         console.log(`Play na sala ${roomId}`);
-        io.to(roomId).emit("controller_opened"); // Envia evento para todos na sala
+        io.to(socket.id).emit("controller_opened"); // Envia evento para todos na sala
     });
 
     socket.on('move', (data) => {
@@ -53,8 +53,19 @@ io.on('connection', (socket) => {
 
         if (room && room.game) {
             room.game.emit('direction', data);
-            console.log(data.direction);
+            console.log(socket.id);
         }
+    });
+
+    socket.on('game_over', (data) => {
+        if (!socket.id) return;
+        const room = rooms[socket.roomId];
+
+        console.log(io.sockets.adapter.rooms);
+
+        io.to(socket.id).emit("game_over");
+        room.game.emit('game_over', data);
+        console.log('Game Over:', socket.id);
     });
 
     socket.on('disconnect', () => {
